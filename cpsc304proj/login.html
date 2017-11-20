@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<link rel="stylesheet" type="text/css" href="css/login.css">
+	</head>
+	<body>
+		<div id="login" class="container"> <!-- Center this horizontally -->
+			<div class="login-container"> <!--Center this vertically -->
+				<h2 class="uppercase">Sign in</h2>
+				<div class="user-tabs">
+					<div id="physician-tab" class="tab" v-on:click="toggleTab('physician')" v-bind:class="{'login-tab-active': (tab == 'physician')}">Physician</div>
+					<div id="receptionist-tab" class="tab" v-on:click="toggleTab('receptionist')" v-bind:class="{'login-tab-active': (tab == 'receptionist')}">Receptionist</div>
+					<div id="patient-tab" class="tab" v-on:click="toggleTab('patient')" v-bind:class="{'login-tab-active': (tab == 'patient')}">Patient</div>
+				</div>
+				<div>		
+
+				<input class="text-input" id="login-id-input" v-model="id" placeholder="ID"/>	
+				<input type="submit" value="Login" v-on:click="login()"/>
+				</div>
+			</div>
+		</div>
+	</body>
+	
+	<script src="js/model.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/vue.js"></script>	
+	<script src="js/vue/login.js"></script>
+</html>

@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/receptionist.css">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+		
+	</head>
+	<body>
+		<div id="receptionist" class="container"> <!-- Use CSS Grid -->
+			<div class="quick-glance"></div>
+			<div class="action-bar">
+				<div class="action-bar-header header">Actions</div>
+				<div class="action-bar-content">
+           <div class="action">
+             <h3>Search patient by last name</h3>
+             <input class="search-input inline" v-model="searchInput"/> 
+             <button class="search-button" v-on:click="searchPatient()">Search</button>  
+          
+            <div class="search-results">
+              <table>
+                <tr class="result" v-for="(result, index) in searchResults" v-on:click="getPatient(result)">
+                  <th class="search--th"> PID </th>
+                  <th class="search--th"> First </th>
+                  <th class="search--th"> Last </th>
+                  <th class="search--th"> Phone </th>
+                </tr>
+                <tr class="result" v-for="(result, index) in searchResults" v-on:click="getPatient(result)">
+                  <td class="search--patient-id"> {{result.patient_id}} </td>
+                  <td class="search--firstname"> {{result.firstname}} </td>
+                  <td class="search--lastname"> {{result.lastname}} </td>
+                  <td class="search--phone"> {{ result.phone }} </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="action">
+          	<h3>Add Patient</h3>
+            <button class="actionlinks" onclick="openTab(event, 'AP')">Add Patient</button>
+          </div>
+
+          <div class="action">
+          	<h3>Add Physician</h3>
+            <button class="actionlinks" onclick="openTab(event, 'AE')">Add Physician</button>
+          </div>
+
+          <div class="action">
+          	<h3>Lookup Employees</h3>
+            <button class="actionlinks" onclick="openTab(event, 'LE')">Lookup Employees</button>
+          </div>
+
+        </div>
+			</div>
+
+     
+			<div class="content-container"> <!-- User inner CSS Grid -->
+<!-- 				<p class="no-patient-message">Patient not found or selected</p> -->
+				<div class="content-tabs">
+					<div id="patient-info" class="tab header" v-on:click="toggleTab('patient-info')" v-bind:class="{'tab-active': (tab == 'patient-info')}">Patient Info</div>
+					<div class="tab header"></div>
+					<div class="tab header"></div>
+				</div>
+
+				<div class="section info">
+          <h1>Patient Info</h1>
+            <div class="personal-info">
+              <div class="patient-id">
+                <span>PatientID</span>
+                <span id="pid">{{patientInfo.patient_id}}</span>
+              </div>
+              
+              <input class="inline" id="fname" placeholder="First Name" v-model="patientInfo.firstname"/>
+              <input class="inline" id="lname" placeholder="Last Name" v-model="patientInfo.lastname"/>
+            
+              <input id="address" class="wide" placeholder="Address" v-model="patientInfo.address"/>
+              <input id="phone" placeholder="Phone Number" v-model="patientInfo.phone"/>
+              <input id="birthday" type="date" placeholder="YYYY-MM-DD" v-model="patientInfo.birthdate"/>
+              <input id="email" class="wide" placeholder="email@email.com" v-model="patientInfo.email"/>
+              <input id="gender" placeholder="Gender" v-model="patientInfo.gender"/> 
+              <input type="submit" value="Update Patient" v-on:click="updatePatient()"/>    
+            </div>
+				</div>
+        
+        <div class="section appointments">
+          <h1>Appointments</h1>
+          <ul>
+            <li v-for="(vaccine, index) in vaccines">
+              <span> {{vaccine.vaccine}} </span>
+            </li>
+          </ul>
+        </div>
+			</div>
+		</div>
+	</body>
+  <script src="js/model.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/vue.js"></script> 
+  <script src="js/vue/receptionist.js"></script>
+</html>

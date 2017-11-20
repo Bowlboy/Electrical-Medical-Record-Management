@@ -1,0 +1,48 @@
+.container {
+	width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+	.login-container {
+		height: 250px;
+		border: 1px black solid;
+		position: relative;
+		top: 250px;
+	}
+
+.user-tabs {
+	padding-bottom: 20px;
+}
+	.tab {
+		display: inline-block;
+		width: 32%;
+		padding: 20px 0px;
+		border: 1px grey solid;
+	}
+		#physician-tab {
+			background-color: white;
+		}
+		#receptionist-tab {
+			background-color: white;
+		}
+		#patient-tab {
+			background-color: white;
+		}
+
+.login-form {
+	display: none;
+	margin-bottom: 0px;
+}
+	.text-input {
+		margin: 20px;
+	}
+
+
+.login-tab-active {
+	background-color: #bdccff !important;
+}
+
+.login-form-active {
+	display: block;
+}

@@ -1,0 +1,134 @@
+<html>
+	<head>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+		<link rel="stylesheet" type="text/css" href="css/physician.css">
+		
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
+	</head>
+	<body>
+		<div id="physician" class="container"> <!-- Use CSS Grid -->
+			<div class="quick-glance"></div>
+			<div class="action-bar">
+				<div class="action-bar-header header">Actions</div>
+				<div class="action-bar-content">
+           <div class="action">
+             <h3>Search patient by last name</h3>
+             <input class="search-input inline" v-model="searchInput"/> 
+             <button class="search-button" v-on:click="searchPatient()">Search</button>  
+          
+            <div class="search-results">
+              <table>
+                <tr class="result" v-for="(result, index) in searchResults" v-on:click="getPatient(result)">
+                  <th class="search--th"> PID </th>
+                  <th class="search--th"> First </th>
+                  <th class="search--th"> Last </th>
+                  <th class="search--th"> Phone </th>
+                </tr>
+                <tr class="result" v-for="(result, index) in searchResults" v-on:click="getPatient(result)">
+                  <td class="search--patient-id"> {{result.patient_id}} </td>
+                  <td class="search--firstname"> {{result.firstname}} </td>
+                  <td class="search--lastname"> {{result.lastname}} </td>
+                  <td class="search--phone"> {{ result.phone }} </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="action">
+            <h3>Get All Immunized Patients</h3>
+            <button class="immunized-patients-button" v-on:click="hideImmunizedPatients()" v-bind:class="{'visible': (showImmunizedPatients == false)}">Hide Immunized Patients</button>
+            <button class="immunized-patients-button" v-on:click="getImmunizedPatients()" v-bind:class="{'visible': (showImmunizedPatients == true)}">Show Immunized Patients</button>
+            <div class="immunized-patients" v-bind:class="{'visible': (showImmunizedPatients == false)}">
+              <ul>
+                <li v-for="(patient, index) in immunizedPatients">
+                  <span> {{patient.patient_id}} </span>
+                  <span> {{patient.firstname}} </span>
+                  <span> {{patient.lastname}} </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+			</div>
+
+     
+			<div class="content-container"> <!-- User inner CSS Grid -->
+<!-- 				<p class="no-patient-message">Patient not found or selected</p> -->
+				<div class="content-tabs">
+					<div id="patient-info" class="tab header" v-on:click="toggleTab('patient-info')" v-bind:class="{'tab-active': (tab == 'patient-info')}">Patient Info</div>
+					<div id="notes" class="tab header" v-on:click="toggleTab('notes')" v-bind:class="{'tab-active': (tab == 'notes')}">Notes</div>
+					<div id="tests" class="tab header" v-on:click="toggleTab('tests')" v-bind:class="{'tab-active': (tab == 'tests')}">Tests</div>
+				</div>
+
+				<div class="section info">
+          <h1>Personal Info</h1>
+            <div class="personal-info">
+              <div class="patient-id">
+                <span>PatientID</span>
+                <span id="pid">{{patientInfo.patient_id}}</span>
+              </div>
+              
+              <input class="inline" id="fname" placeholder="First Name" v-model="patientInfo.firstname"/>
+              <input class="inline" id="lname" placeholder="Last Name" v-model="patientInfo.lastname"/>
+            
+              <input id="address" class="wide" placeholder="Address" v-model="patientInfo.address"/>
+              <input id="phone" placeholder="Phone Number" v-model="patientInfo.phone"/>
+              <input id="birthday" type="date" placeholder="YYYY-MM-DD" v-model="patientInfo.birthdate"/>
+              <input id="email" class="wide" placeholder="email@email.com" v-model="patientInfo.email"/>
+              <input id="gender" placeholder="Gender" v-model="patientInfo.gender"/> 
+              <input type="submit" value="Update Patient" v-on:click="updatePatient()"/>    
+            </div>
+
+<!--           <h3>Medical Info</h3>
+          <input id="height" placeholder="Height" v-model="patientInfo.height"/>
+          <input id="weight" placeholder="Weight" v-model="patientInfo.weight"/>       
+          <input type="submit" value="Update Medical Info" /> -->
+				</div>
+        <div class="section allergies">
+          <h1>Allergies</h1>
+          <div class="add-allergy">
+            <h4>Add Allergy</h4>
+            <input class="inline" placeholder="Allergy" v-model="allergyInput"/>
+            <input class="inline" type="submit" value="Add Allergy" v-on:click="addAllergy()"/> 
+          </div>
+          <div>
+            <h4>Allergies</h4>
+            <ul>
+              <li v-for="(allergen, index) in allergies">
+                <span> {{allergen.allergen}} </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="section medication">
+          <h1>Medication</h1>
+          <div class="add-medication">
+            <h4>Add Prescription</h4>
+            <input placeholder="Drug Name" v-model="prescriptionName"/>
+            <input type="date" placeholder="YYYY-MM-DD" v-model="prescriptionDate"/>
+            <input placeholder="Quantity" v-model="prescriptionQuantity"/>
+            <input class="inline" type="submit" value="Add Prescription" v-on:click="addPrescription()"/> 
+          </div>
+          <h4>Medication</h4>
+          <ul>
+            <li v-for="(medication, index) in medications">
+              <span v-on:click="getCount(medication.drug_name)"> {{medication.drug_name}} </span>
+            </li>
+          </ul>
+        </div>
+        <div class="section vaccination">
+          <h1>Vaccination</h1>
+          <ul>
+            <li v-for="(vaccine, index) in vaccines">
+              <span> {{vaccine.vaccine}} </span>
+            </li>
+          </ul>
+        </div>
+			</div>
+		</div>
+	</body>
+  <script src="js/model.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/vue.js"></script> 
+  <script src="js/vue/physician.js"></script>
+</html>

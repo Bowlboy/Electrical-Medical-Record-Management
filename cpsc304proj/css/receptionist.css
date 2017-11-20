@@ -1,0 +1,7 @@
+.content-container {
+	grid-area: info;
+	background-color: #cbcbcb;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	grid-template-rows: 50px auto;
+}

@@ -1,0 +1,22 @@
+.action-bar-content {
+}
+	.immunized-patients-button {
+		display: none;
+	}
+	.immunized-patients {
+		display: none;
+	}
+
+
+
+.content-container {
+  grid-area: info;
+  background-color: #cbcbcb;
+  display: grid;
+  grid-template-columns: 33% 33% auto;
+  grid-template-rows: 50px 50% auto;
+}
+
+
+
+

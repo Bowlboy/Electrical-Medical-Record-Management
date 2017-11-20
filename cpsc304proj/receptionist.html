@@ -1,0 +1,230 @@
+<html>
+	<head>
+
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="css/receptionistcopy.css">
+		
+	</head>
+	<body>
+		<div id="receptionist" class="container"> <!-- Use CSS Grid -->
+			<div class="quick-glance"></div>
+			<div class="action-bar">
+				<div class="action-bar-header">Actions</div>
+				<div class="action-bar-content">
+					<div class="action">
+						<h3>Search patient by last name</h3>
+		         <input class="search-input inline" v-model="searchInput"/> 
+		         <button class="search-button" v-on:click="searchPatient()">Search</button> 
+						<div class="search-results">
+		          <div class="result" v-for="(result, index) in searchResults" v-on:click="getPatient(result)">
+		            <span class="search--patient-id"> {{result.patient_id}} </span>
+		            <span class="search--firstname"> {{result.firstname}} </span>
+		            <span class="search--lastname"> {{result.lastname}} </span>
+		            <span class="search--phone"> {{ result.phone }} </span>
+		          </div>
+		        </div>
+		      </div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'AP')">Add Patient</button>
+					</div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'APBP')">Add Appointment by Patient</button>
+					</div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'DP')">Delete Patient</button>
+					</div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'CP')">Cancel Appointment</button>
+					</div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'UP')">Update Patient</button>
+					</div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'LE')">Lookup Employees</button>
+					</div>
+					<div class="action">
+						<button class="actionlinks" onclick="openTab(event, 'AE')">Add Physician</button>
+					</div>
+
+				</div>
+			</div>
+			<div class="content-container"> <!-- User inner CSS Grid -->
+<!-- 				<p class="no-patient-message">Patient not found or selected</p> -->
+				<div class="section info">					
+					<div id="AP" class="content">
+							<h1>Add Patient</h1>
+						<h4>FirstName</h4>
+						<input type="text" id="apfname" name="fname">
+						<h4>LastName</h4>
+						<input type="text" id="aplname" name="lname">
+						<h4>Phone#</h4>
+						<input type="text" id="apphone" name="phone">
+						<h4>Address</h4>
+						<input type="text" id="apaddress" name="address">
+						<h4>Gender</h4>
+						<div>
+							<span class="label">Male:</span>
+							<input class="inline" type="radio" id = "apgender" name="gender" value="male" checked>
+						</div>
+						<div>
+							<span class="label">Female</span>
+							<input class="inline" type="radio" id="apgender" name="gender" value="female">
+						</div>
+						<div>
+							<span class="label">Other</span>
+							<input class="inline" type="radio" id = "apgender" name="gender" value="other">
+						</div>
+						<h4>Email</h4>
+						<input type="text" id = "apemail" name="email" placeholder="email@email.com">
+						<h4>Birthdate</h4>
+						<input type="date" id = "apbirthdate" name="birthdate">
+						<button name ="ap" id="ap">ADD PATIENT</button>
+						<p id="apout"></p> 
+					</div>
+				
+					
+					<div id="APBP" class="content">
+					<h1>Add Appointment by Patient</h1> 
+					Clinic Id
+					<br>
+					<input type="text" id="apbpcid" name="cid">
+					<br>
+					License Id
+					<br>
+					<input type="text" id="apbplid" name="lid">
+					<br>
+					Time
+					<br>
+					<input type="time" id="apbptime" name="time">
+					<br>
+					Date
+					<br>
+					<input type="date" id="apbpdate" name="date">
+					<br>
+					Patient Id
+					<br>
+					<input type="text" id="apbppid" name="pid">
+					<br>			
+					<button name ="apbp" id="apbp">ADD APPOINTMENT BY PATIENT</button>
+					<p id="apbpout"></p> 
+					</div>
+					
+			
+					<div id="DP" class="content">
+					<h1>Delete Patient</h1> 
+					Patient Id
+					<br>
+					<input type="text" id="dppid" name="pid">
+					<br>
+					<button name ="dp" id="dp">DELETE PATIENT</button>
+					<p id="dpout"></p> 
+					</div>
+					
+					
+					<div id="CP" class="content">
+					<h1>Cancel Appointment</h1> 
+					Clinic Id
+					<br>
+					<input type="text" id="cacid" name="cid">
+					<br>
+					License Id
+					<br>
+					<input type="text" id="calid" name="lid">
+					<br>
+					Time
+					<br>
+					<input type="time" id="catime" name="time">
+					<br>
+					Date
+					<br>
+					<input type="date" id="cadate" name="date">
+					<br>
+					<button name ="ca" id="ca">Cancel Appointment</button>
+					<p id="caout"></p> 
+					</div>
+					
+					<div id="UP" class="content">
+					<h1>Update Patient</h1> 
+					Patient ID
+					<br>
+					<input type="text" id="uppid" name="pid" v-model="patientInfo.patient_id">
+					<br>
+					FirstName
+					<br>
+					<input type="text" id = "upfname" name="fname" v-model="patientInfo.firstname">
+					<br>
+					LastName
+					<br>
+					<input type="text" id = "uplname" name="lname" v-model="patientInfo.lastname">
+					<br>
+					Phone#
+					<br>
+					<input type="text" id = "upphone" name="phone" v-model="patientInfo.phone">
+					<br>
+					Address
+					<br>
+					<input type="text" id = "upaddress" name="address" v-model="patientInfo.address">
+					<br>
+					Gender
+					<br>
+					<input type="text" id = "gender" name="address" v-model="patientInfo.gender">
+					<br>
+					Email
+					<br>
+					<input type="text" id = "upemail" name="email" v-model="patientInfo.email">
+					<br>
+					Birthdate
+					<br>
+					<input type="date" id = "upbirthdate" name="birthdate" v-model="patientInfo.birthdate">
+					<br>
+					<button name ="up" id="up" v-on:click="updatePatient()">UPDATE PATIENT</button>
+					<p id="upout"></p> 
+					</div>
+	
+					<div id="LE" class="content">
+							<h1>Lookup Employee</h1> 
+							Clinic ID
+							<br>
+							<input type="text" id="lead" name="lead">
+							<br>
+							<button name ="le" id="le">LOOKUP EMPLOYEES</button>
+							<table id="leout"></table> 
+					</div>
+					
+					<div id="AE" class="content">
+					<h1>Add Physician to Employs</h1> 			
+					FirstName
+					<br>
+					<input type="text" id = "aefname" name="fname">
+					<br>
+					LastName
+					<br>
+					<input type="text" id = "aelname" name="lname">
+					<br>
+					Start Date
+					<br>
+					<input type="date" id="aedate" name="date">
+					<br>
+					Hours
+					<br>
+					<input type="number" id="aeh" name="hour">
+					<br>
+					Clinic Id
+					<br>
+					<input type="text" id="aecid" name="cid">
+					<br>
+					<button name ="ae" id="ae">ADD PHYSICIAN</button>
+					<p id="aeout"></p> 
+					</div>
+				
+				</div>
+			</div>
+		</div>
+	</body>
+  <script src="js/model.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/vue.js"></script> 
+  <script src="js/vue/receptionist.js"></script>
+	<script src="js/receptionist.js"></script>
+</html>

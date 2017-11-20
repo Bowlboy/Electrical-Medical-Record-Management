@@ -1,0 +1,206 @@
+
+
+CREATE TABLE Physician (
+        employee_id INT NOT NULL,
+        license_number INT NOT NULL,
+        specialization VARCHAR(45) NULL,
+        PRIMARY KEY (employee_id),
+        FOREIGN KEY (employee_id)
+        REFERENCES Employee (employee_id)
+        ON DELETE CASCADE
+        );
+
+CREATE TABLE Receptionist (
+        employee_id INT NOT NULL,
+        PRIMARY KEY (employee_id),
+        FOREIGN KEY (employee_id)
+        REFERENCES  Employee (employee_id)
+        ON DELETE CASCADE
+        );
+
+        grant select on Receptionist to public;
+        grant insert on Receptionist to public;
+
+INSERT INTO Patient values (1, 'Chris', 'Yoon', '7781234567', '1234 Main Street', 'Male', 'chris@email.com', '1966-03-25');
+
+INSERT INTO Employee values (1, 'e1@email.com', '7781112222', 'EmpFName', 'EmpLName');
+INSERT INTO Employee values (2, 'e2@email.com', '7781113333', 'REmpFName', 'REmpLName');
+INSERT INTO Physician values (1, 100, 'Pediatrics');
+
+INSERT INTO Receptionist values (2);
+
+grant select on patient to public;
+grant insert on patient to public;
+
+DROP SEQUENCE seq_patient;
+create sequence seq_patient
+minvalue 1
+start with 1
+increment by 1
+cache 10;
+
+
+create table Person (ID int NOT NULL,
+  name varchar(255) NOT NULL,
+  PRIMARY KEY(ID)
+)
+
+INSERT INTO Person VALUES (seq_person.nextval,'Chris');
+
+
+CREATE TABLE Clinic (
+        clinic_id INT NOT NULL,
+        address VARCHAR(45) NOT NULL,
+        phone VARCHAR(11) NOT NULL,
+        PRIMARY KEY (clinic_id));
+
+grant select on Clinic to public;
+grant insert on Clinic to public;
+grant delete on Clinic to public;
+
+INSERT INTO Clinic values (1, '1234 Main Mall', '7784445555');
+
+
+CREATE TABLE Appointment (
+        clinic_id INT NOT NULL,
+        license_number INT NOT NULL,
+        startTime VARCHAR(45) NOT NULL,
+        appointmentDate VARCHAR(10) NOT NULL,
+        patient_id INT NULL,
+        PRIMARY KEY (clinic_id, license_number, startTime, appointmentDate),
+        FOREIGN KEY (clinic_id)
+        REFERENCES Clinic (clinic_id)
+        ON DELETE CASCADE,
+        FOREIGN KEY (patient_id)
+        REFERENCES Patient (patient_id)
+        ON DELETE CASCADE
+         );
+
+grant select on Appointment to public;
+grant insert on Appointment to public;
+grant delete on Appointment to public;
+
+INSERT INTO Appointment values(1, 100, '12:10', '2016-09-08', 1);
+
+
+SELECT E.firstname, E.lastname, C.address, A.startTime, C.clinic_id, P.license_number, A.appointmentdate
+FROM Physician P, Appointment A, Clinic C, Employee E
+WHERE A.patient_id=10000 AND A.clinic_id = C.clinic_id AND A.license_number = P.license_number AND P.employee_id = E.employee_id;
+
+
+
+
+CREATE TABLE Laboratory (
+        lab_id INT NOT NULL,
+        city VARCHAR(20) NOT NULL,
+    address VARCHAR(50) NOT NULL,
+        PRIMARY KEY (lab_id));
+
+grant select on Laboratory to public;
+grant insert on Laboratory to public;
+grant delete on Laboratory to public;
+
+ CREATE TABLE Test (
+        test_id INT NOT NULL,
+        lab_id INT NULL,
+        description VARCHAR(30),
+        PRIMARY KEY (test_id),
+        FOREIGN KEY (lab_id)
+        REFERENCES Laboratory (lab_id)
+        ON DELETE CASCADE
+ );
+
+grant select on Test to public;
+grant insert on Test to public;
+grant delete on Test to public;
+
+CREATE TABLE LabOrder (
+        test_id INT NULL,
+        employee_id INT NOT NULL,
+        patient_id INT NOT NULL,
+        laborderdate VARCHAR(10) NOT NULL,
+    status VARCHAR(10),
+    result VARCHAR(20), 
+        PRIMARY KEY (employee_id, patient_id, laborderdate),
+        FOREIGN KEY (test_id)
+        REFERENCES Test (test_id)
+        ON DELETE SET NULL
+        );
+
+
+
+
+grant select on LabOrder to public;
+grant insert on LabOrder to public;
+grant delete on LabOrder to public;
+
+
+
+INSERT INTO Laboratory VALUES (1, 'Vancouver', '3228 Tupper st');
+INSERT INTO Test VALUES (1, 1, 'Simple Test');
+INSERT INTO LabOrder VALUES (1, 1, 1, '17-11-19', 'completed', 'positive');
+INSERT INTO Test VALUES (2, 1, 'Simple Test2');
+INSERT INTO LabOrder VALUES (2, 1, 1, '17-11-18', 'incomplete', 'positive');
+
+
+SELECT T.lab_id, T.description, P.license_number, E.firstname, E.lastname, O.order_date, O.status, O.result 
+FROM Test T, LabOrder O, Physician P, Employee E
+WHERE O.patient_id = 1 AND
+T.test_id = O.test_id AND
+O.employee_id = P.employee_id AND
+P.employee_id = E.employee_id;
+
+
+
+
+select * FROM patient P, medicalrecord MR 
+where P.patient_id = 10000 
+AND P.patient_id = MR.patient_id;
+
+
+
+SELECT DISTINCT Drug.name
+FROM Prescribes, Prescription, Drug
+WHERE Prescription.patient_id = 10160 AND Prescribes.prescription_id = Prescription.prescription_id AND Drug.drug_id = Prescribes.drug_id;
+
+
+SELECT Drug.name , COUNT(*) as Count
+FROM Drug, Prescribes, Prescription
+WHERE Prescribes.prescription_id = Prescription.prescription_id AND Drug.drug_id = Prescribes.drug_id
+GROUP BY drug.name;
+
+
+SELECT Allergen 
+FROM Patient, MedicalRecord, Allergy
+WHERE Patient.patient_id = MedicalRecord.patient_id
+AND Allergy.MedicalRecord_id = MedicalRecord.medicalRecord_id
+AND Patient.patient_id = 10410
+
+
+SELECT Vaccine
+FROM Patient, MedicalRecord, Vaccination
+WHERE Patient.patient_id = MedicalRecord.patient_id
+AND Vaccination.medicalRecord_id = MedicalRecord.medicalRecord_id
+AND Patient.patient_id = 10300;
+
+CREATE VIEW ImmunizedPatients AS
+SELECT *
+FROM Patient, MedicalRecord, Vaccination
+WHERE MedicalRecord.patient_id = Patient.patient_id AND 
+MedicalRecord.medicalRecord_id = Vaccination.medicalRecord_id AND 
+Vaccination.vaccine LIKE '%Flu%' ;
+
+
+SELECT Employee.firstname, Employee.phone
+FROM Employee, Employs, Clinic
+WHERE Clinic.clinic_id = 100 AND Clinic.clinic_id=Employs.clinic_id AND Employs.employee_id = Employee.employee_id;
+
+INSERT INTO Employs 
+SELECT employee_id, '110', '2017-11-19', '20'
+FROM Employee
+WHERE Employee.firstname = 'Crin' AND Employee.lastname = 'Salt';
+
+
+grant all privileges on Employs to public;
+grant all privileges on Employee to public;
+grant all privileges on Appointment to public;

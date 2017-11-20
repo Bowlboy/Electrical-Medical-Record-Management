@@ -1,0 +1,34 @@
+.uppercase {
+	text-transform: uppercase;
+}
+
+
+
+html {
+  font-family: 'Open Sans', sans-serif;
+}
+
+input {
+  padding: 5px;
+}
+.header {
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+}
+
+.inline {
+  display: inline !important;
+}
+
+.visible {
+  display: block !important;
+}
+
+.wide {
+  width: 100%;
+}
+
+
+h4 {
+  margin: 5px 0px;
+}

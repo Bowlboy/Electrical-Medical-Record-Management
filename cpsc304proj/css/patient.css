@@ -1,0 +1,77 @@
+.container {
+	width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+.patient-container {
+		height: 250px;
+		border: 1px black solid;
+		position: relative;
+		top: 250px;
+}
+
+div.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+div.tab button.patient-tab-active {
+    background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+}
+
+/* Style for table content */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+#trout {
+    display: none;
+}
+.visible {
+    display: block !important;
+}
+.visible-table {
+    display: table !important;
+}
+.appointment {
+
+}
+    span.appointment-starttime {
+        color: blue;
+    }
+    span.appointment-address {
+        color: green;
+    }
+    span.appointment-doctor {
+        color: red;
+    }
+p.empty-message {
+    display: none;
+}

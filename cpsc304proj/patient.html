@@ -1,0 +1,72 @@
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/patient.css">
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+	</head>
+	<body>
+		<div id="patient" class="container"> <!-- Center this horizontally -->
+			<div class="patient-container"> <!--Center this vertically -->
+				<div class="tab">
+					<button class="tablinks" v-on:click="toggleTab('appointment')" v-bind:class="{'patient-tab-active': (tab == 'appointment')}">Appointment</button>
+					<button class="tablinks" v-on:click="toggleTab('test-results')" v-bind:class="{'patient-tab-active': (tab == 'test-results')}">Test Result</button>
+					<button class="tablinks" v-on:click="toggleTab('myhealth')" v-bind:class="{'patient-tab-active': (tab == 'myhealth')}">MyHealth</button>
+				</div>
+
+				<div id="Appointment" class="tabcontent" v-bind:class="{'visible': (tab == 'appointment')}">
+				<!--   Patient Id &nbsp<input type="text" name="pidca" id="pidca"> -->
+				    <button id="ca" v-on:click="checkAppointment()">Check Appointment</button>
+				    <p class="empty-message" v-bind:class="{'visible': (appointments.length == 0)}">No apointments found</p>
+				  	<div class="appointment" v-for="(a, index) in appointments">
+				  		<p>Your next appointment is at 
+				  			<span class="appointment-starttime">{{ a.starttime }}</span>
+				  			at
+				  			<span class="appointment-address">{{ a.address }}</span>
+				  			with Dr.
+				  			<span class="appointment-doctor">{{ a.last_name }}</span>
+				  			<button class="cancel" v-on:click="cancelAppointment(index)">cancel</button>
+				  		</p>
+				  	</div>
+				</div>
+
+				<div id="Test Result" class="tabcontent" v-bind:class="{'visible': (tab == 'test-results')}">
+				 <!-- Patient Id &nbsp<input type="text" name="pidtr" id="pidtr"> -->
+				   <button id="tr" v-on:click="getTestResult()">Check Test Result</button>
+				  <p class="empty-message" v-bind:class="{'visible': (testResults.length == 0)}">No test results found</p>
+				  <table id="trout" style="width:100%" v-bind:class="{'visible-table': (testResults.length != 0)}">	
+				  	<tr>
+				  		<th>Lab Id</th>
+				  		<th>Description</th>
+				  		<th>First Name</th>
+				  		<th>Last Name</th>
+				  		<th>Order Date</th>
+				  		<th>Status</th>
+				  		<th>Result</th>
+				  	</tr>		  					 
+				   	<tr class="test-results" v-for="(tr, index) in testResults">
+				   		<td>{{tr.lab_id}}</td>
+				   		<td>{{tr.description}}</td>
+				   		<td>{{tr.firstname}}</td>
+				   		<td>{{tr.lastname}}</td>
+				   		<td>{{tr.lab_order_date}}</td>
+				   		<td>{{tr.status}}</td>
+				   		<td>{{tr.result}}</td>
+				   	</tr>	
+				  </table> 
+				</div>
+
+				<div id="MyHealth" class="tabcontent" v-bind:class="{'visible': (tab == 'myhealth')}">
+				<!--  Patient Id &nbsp<input type="text" name="pidmh" id="pidmh"> -->
+				   <button id="mh">Check MyHealth</button>
+				  <p>Not Functional</p>
+				</div>
+						
+			</div>
+		</div>
+	</body>
+	<script src="js/model.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/vue.js"></script> 
+  <script src="js/vue/patient.js"></script>
+</html>
+
+

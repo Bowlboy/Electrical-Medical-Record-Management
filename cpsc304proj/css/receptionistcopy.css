@@ -1,0 +1,31 @@
+.container {
+	width: 100%;
+	height: 100%;
+	display: grid;
+	grid-template-columns: 20% auto;
+	grid-template-rows: 50px auto;
+	grid-template-areas: 
+		"header header"
+		"action-bar info";
+}
+
+
+
+
+.content {
+	display : none;
+}
+
+/* Style for table content */
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.section {
+	border: none;
+}
+
+input {
+	margin: 5px 0px;
+}
